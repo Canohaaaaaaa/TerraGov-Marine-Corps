@@ -409,3 +409,5 @@
 
 /mob/living/carbon/xenomorph/brutalizer/primordial
 	upgrade = XENO_UPGRADE_FOUR
+
+//----BRUTALIZER END----//
