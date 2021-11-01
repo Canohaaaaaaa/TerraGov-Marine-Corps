@@ -12,7 +12,7 @@
 	mob_size = MOB_SIZE_BIG
 
 
-/mob/living/carbon/xenomorph/warrior/start_pulling(atom/movable/AM, suppress_message = TRUE, snatch = FALSE)
+/mob/living/carbon/xenomorph/brutalizer/start_pulling(atom/movable/AM, suppress_message = TRUE, snatch = FALSE)
 
 	var/mob/living/L = AM
 	if(snatch && ..())

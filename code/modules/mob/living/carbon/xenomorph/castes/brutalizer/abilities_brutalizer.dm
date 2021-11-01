@@ -21,16 +21,17 @@
 	if(!.)
 		return
 
-	if(!owner.Adjacent(A) || !silent)
-		to_chat(owner, span_xenodanger("Our target must be adjacent!"))
+	if(!owner.Adjacent(A))
+		if(!silent)
+			to_chat(owner, span_xenodanger("Our target must be adjacent!"))
 		return FALSE
 	if(!isliving(A) || isxeno(A)) //No grabbing your sisters instead of marines and no grabbing the dead.
 		to_chat(owner,span_xenodanger("We can't grab that!"))
 		return FALSE
 
-/datum/action/xeno_action/activable/lunge/use_ability(atom/A)
+/datum/action/xeno_action/activable/snatch/use_ability(atom/A)
 	var/mob/living/carbon/xenomorph/brutalizer/X = owner
-	X.start_pulling(A,TRUE)
+	X.start_pulling(A,snatch = TRUE)
 	add_cooldown()
 	succeed_activate()
 
