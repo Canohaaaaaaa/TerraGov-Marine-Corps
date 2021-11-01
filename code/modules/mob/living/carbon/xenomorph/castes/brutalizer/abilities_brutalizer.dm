@@ -34,5 +34,29 @@
 	X.start_pulling(A,snatch = TRUE)
 	add_cooldown()
 	succeed_activate()
+// ***************************************
+// *********** Super punch
+// ***************************************
+/datum/action/xeno_action/activable/punch/brutal
+	plasma_cost = 20
+	cooldown_timer = 15 SECONDS
 
+/datum/action/xeno_action/activable/punch/brutal/use_ability(atom/A)
+	//, X.xeno_caste.melee_damage * X.xeno_melee_damage_modifier
+	if(iscarbon(A) && !isxeno(A))
+		var/mob/living/carbon/xenomorph/X = owner
+		var/mob/living/target = A
+		if(target.pulledby == X)
+			target.Paralyze(1 SECONDS, ignore_canstun = FALSE)
+			target.apply_damage(X.xeno_caste.melee_damage * X.xeno_melee_damage_modifier, BRUTE, "chest", target.run_armor_check("chest"))
+			playsound(target, pick('sound/weapons/punch1.ogg','sound/weapons/punch2.ogg','sound/weapons/punch3.ogg','sound/weapons/punch4.ogg'), 50, 1)
+			X.face_atom(target) //Face the target so you don't look like an idiot
+			X.do_attack_animation(target, ATTACK_EFFECT_YELLOWPUNCH)
+			X.do_attack_animation(target, ATTACK_EFFECT_DISARM2)
+			succeed_activate()
+			add_cooldown()
+			return
+	return ..()
 
+/atom/proc/super_punch_act(mob/living/carbon/xenomorph/X, damage, target_zone)
+	return
