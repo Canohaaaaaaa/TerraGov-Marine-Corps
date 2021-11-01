@@ -7,7 +7,6 @@
 	caste_type_path = /mob/living/carbon/xenomorph/brutalizer
 	tier = XENO_TIER_THREE
 	upgrade = XENO_UPGRADE_BASETYPE
-	wound_type = "crusher" //Looks like a crusher for now
 
 	// *** Melee Attacks *** //
 	melee_damage = 19
@@ -35,7 +34,6 @@
 		/datum/action/xeno_action/activable/psydrain,
 		/datum/action/xeno_action/activable/headbite,
 		/datum/action/xeno_action/activable/devour,
-		/datum/action/xeno_action/activable/fling
 	)
 
 /datum/xeno_caste/brutalizer/young
