@@ -34,6 +34,7 @@
 		/datum/action/xeno_action/activable/psydrain,
 		/datum/action/xeno_action/activable/headbite,
 		/datum/action/xeno_action/activable/devour,
+		/datum/action/xeno_action/activable/snatch,
 	)
 
 /datum/xeno_caste/brutalizer/young
