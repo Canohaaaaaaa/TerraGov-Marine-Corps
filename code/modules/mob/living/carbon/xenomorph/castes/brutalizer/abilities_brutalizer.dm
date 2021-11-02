@@ -42,21 +42,35 @@
 	cooldown_timer = 15 SECONDS
 
 /datum/action/xeno_action/activable/punch/brutal/use_ability(atom/A)
-	//, X.xeno_caste.melee_damage * X.xeno_melee_damage_modifier
-	if(iscarbon(A) && !isxeno(A))
+	var/mob/living/target = owner.pulling
+	var/turf/target_turf = A
+	if(iscarbon(target) && !isxeno(target)) //No smashing allies
 		var/mob/living/carbon/xenomorph/X = owner
-		var/mob/living/target = A
-		if(target.pulledby == X)
+		if(target.pulledby == X) //If they're pulled by a brutalizer, suplex them
+			X.visible_message(span_danger("\The [X] lifts [target] into the air!"), \
+			span_xenowarning("We lift [target] into the air..."))
+			if(!do_after(X, 2 SECONDS, TRUE, target, BUSY_ICON_DANGER))
+				return fail_activate()
+			X.visible_message(span_danger("\The [X] smashes [target] into the ground!"), \
+			span_highdanger("And smash them into the ground!"))
+			owner.stop_pulling()
+			X.face_atom(target_turf)
+			target.forceMove(get_turf(X)) //First force them into our space so we can toss them behind us without problems
+			target.throw_at(target_turf, 1, 1, X, 1)
 			target.Paralyze(1 SECONDS, ignore_canstun = FALSE)
 			target.apply_damage(X.xeno_caste.melee_damage * X.xeno_melee_damage_modifier, BRUTE, "chest", target.run_armor_check("chest"))
 			playsound(target, pick('sound/weapons/punch1.ogg','sound/weapons/punch2.ogg','sound/weapons/punch3.ogg','sound/weapons/punch4.ogg'), 50, 1)
-			X.face_atom(target) //Face the target so you don't look like an idiot
 			X.do_attack_animation(target, ATTACK_EFFECT_YELLOWPUNCH)
 			X.do_attack_animation(target, ATTACK_EFFECT_DISARM2)
 			succeed_activate()
 			add_cooldown()
 			return
 	return ..()
+
+/datum/action/xeno_action/activable/punch/brutal/can_use_ability(atom/A, silent, override_flags)
+	if(ishuman(owner.pulling)) //Enables the alternate use of the super punch : smash whoever we're pulling
+		return TRUE
+	. = ..()
 
 /atom/proc/super_punch_act(mob/living/carbon/xenomorph/X, damage, target_zone)
 	return
