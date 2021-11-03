@@ -34,10 +34,13 @@
 	X.start_pulling(A,snatch = TRUE)
 	add_cooldown()
 	succeed_activate()
+
 // ***************************************
 // *********** Super punch
 // ***************************************
+
 /datum/action/xeno_action/activable/punch/brutal
+	//Use XABB_TURF_TARGET when refactoring
 	plasma_cost = 20
 	cooldown_timer = 15 SECONDS
 
@@ -48,6 +51,9 @@
 		var/mob/living/carbon/xenomorph/X = owner
 		if(target.pulledby == X) //If they're pulled by a brutalizer
 			var/turf/slam_turf = get_step(get_turf(X),get_dir(get_turf(X),target_turf)) //Where the victim is landing
+			if(slam_turf.density)
+				to_chat(X,span_xenodanger("We can't slam them into that!"))
+				return
 			X.visible_message(span_danger("\The [X] lifts [target] into the air!"), \
 			span_xenowarning("We lift [target] into the air..."))
 			if(!do_after(X, 2 SECONDS, TRUE, target, BUSY_ICON_DANGER))
@@ -97,7 +103,7 @@
 					if(affected_human == target) //The target was already hit no need for more
 						continue
 					affected_human.Paralyze(1 SECONDS, ignore_canstun = FALSE)
-					to_chat(affected_human,span_danger("The shockwave knocks us off our feet !"))
+					to_chat(affected_human,span_danger("The shockwave knocks us off our feet!"))
 					shake_camera(affected_human, 2, 1)
 
 			succeed_activate()
@@ -110,5 +116,42 @@
 		return TRUE
 	. = ..()
 
-/atom/proc/super_punch_act(mob/living/carbon/xenomorph/X, damage, target_zone)
-	return
+// ***************************************
+// *********** Boulder Toss
+// ***************************************
+
+/datum/action/xeno_action/activable/boulder_toss
+	name = "Boulder Toss"
+	desc = "WIP"
+	action_icon_state = "retrieve_egg"
+	plasma_cost = 50 //TODO : Balance
+	mechanics_text = "WIP (UNEARTH A ROCK)"
+	cooldown_timer = 20 SECONDS
+	ability_name = "boulder toss"
+
+/datum/action/xeno_action/activable/boulder_toss/on_cooldown_finish()
+	to_chat(owner, span_xenonotice("We are to escavate once more."))
+	owner.playsound_local(owner, 'sound/effects/xeno_newlarva.ogg', 25, 0, 1)
+	return ..()
+
+/datum/action/xeno_action/activable/boulder_toss/can_use_ability(atom/A, silent = FALSE, override_flags)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!A)
+		return FALSE
+
+/datum/action/xeno_action/activable/boulder_toss/use_ability(atom/A)
+	var/mob/living/carbon/xenomorph/brutalizer/X = owner
+	X.unearth_boulder()
+	add_cooldown()
+	succeed_activate()
+
+/mob/living/carbon/xenomorph/brutalizer/proc/unearth_boulder(atom/T)
+	var/get_active_held_item
+
+/obj/item/boulder
+	name = "boulder"
+	icon = 'icons/obj/flora/rocks2.dmi'
+	icon_state = "basalt"
+	flag_item = DELONDROP

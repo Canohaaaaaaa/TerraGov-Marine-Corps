@@ -36,6 +36,8 @@
 		/datum/action/xeno_action/activable/devour,
 		/datum/action/xeno_action/activable/snatch,
 		/datum/action/xeno_action/activable/punch/brutal,
+		/datum/action/xeno_action/activable/toss,
+		/datum/action/xeno_action/activable/boulder_toss,
 	)
 
 /datum/xeno_caste/brutalizer/young
