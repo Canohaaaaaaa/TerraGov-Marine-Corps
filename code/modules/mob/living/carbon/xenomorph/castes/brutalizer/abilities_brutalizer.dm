@@ -143,15 +143,5 @@
 
 /datum/action/xeno_action/activable/boulder_toss/use_ability(atom/A)
 	var/mob/living/carbon/xenomorph/brutalizer/X = owner
-	X.unearth_boulder()
 	add_cooldown()
 	succeed_activate()
-
-/mob/living/carbon/xenomorph/brutalizer/proc/unearth_boulder(atom/T)
-	var/get_active_held_item
-
-/obj/item/boulder
-	name = "boulder"
-	icon = 'icons/obj/flora/rocks2.dmi'
-	icon_state = "basalt"
-	flag_item = DELONDROP

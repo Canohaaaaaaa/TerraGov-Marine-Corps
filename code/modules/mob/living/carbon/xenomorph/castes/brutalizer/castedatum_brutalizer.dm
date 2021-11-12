@@ -32,8 +32,6 @@
 	actions = list(
 		/datum/action/xeno_action/xeno_resting,
 		/datum/action/xeno_action/activable/psydrain,
-		/datum/action/xeno_action/activable/headbite,
-		/datum/action/xeno_action/activable/devour,
 		/datum/action/xeno_action/activable/snatch,
 		/datum/action/xeno_action/activable/punch/brutal,
 		/datum/action/xeno_action/activable/toss,
